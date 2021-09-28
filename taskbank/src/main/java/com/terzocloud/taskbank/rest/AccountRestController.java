@@ -9,7 +9,7 @@ public class AccountRestController {
     public String allAccounts()
     {
         return "all account";
-    }
+    }           //should return all accounts
 
     @GetMapping("/account/{accountId}")
     public String getAccount(@PathVariable int accountId)
