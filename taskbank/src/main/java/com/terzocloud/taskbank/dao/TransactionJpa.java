@@ -19,13 +19,13 @@ public class TransactionJpa implements TransactionDAO{
 
     @Override
     public void Withdraw(int accountID, int amount) {
-        Query query = eManager.createQuery("update Transaction set transaction_amount=transaction_amount-"+String.valueOf(amount)+" where transaction_accout_id="+String.valueOf(accountID));
+        Query query = eManager.createQuery("update Transaction set transaction_amount=transaction_amount-"+amount+" where transaction_accout_id="+accountID);
         query.executeUpdate();
     }
 
     @Override
     public void Deposit(int accountID, int amount) {
-        Query query = eManager.createQuery("update Transaction set transaction_amount=transaction_amount+"+String.valueOf(amount)+" where transaction_accout_id="+String.valueOf(accountID));
+        Query query = eManager.createQuery("update Transaction set transaction_amount=transaction_amount+"+ amount +" where transaction_accout_id="+accountID);
         query.executeUpdate();
     }
 
