@@ -8,5 +8,5 @@ public interface AccountService {
     public List<Account> getAll();
     public Account getById(int id);
     public void save(Account account);
-    public void deleteById(int id);
+    public Account deleteById(int id);
 }

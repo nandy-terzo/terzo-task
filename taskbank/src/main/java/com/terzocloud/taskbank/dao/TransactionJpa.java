@@ -1,5 +1,5 @@
 package com.terzocloud.taskbank.dao;
-
+/*
 import com.terzocloud.taskbank.entity.Account;
 import com.terzocloud.taskbank.entity.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,3 +36,4 @@ public class TransactionJpa implements TransactionDAO{
         return transactions;
     }
 }
+*/

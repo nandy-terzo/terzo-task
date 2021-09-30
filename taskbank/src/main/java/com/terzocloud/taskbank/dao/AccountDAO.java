@@ -8,5 +8,5 @@ public interface AccountDAO {
     public List<Account> findAll();
     public Account findById(int theId);
     public void save(Account account);
-    public void deleteById(int theId);
+    public Account deleteById(int theId);
 }

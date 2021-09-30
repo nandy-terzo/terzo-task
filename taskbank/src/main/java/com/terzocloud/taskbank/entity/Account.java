@@ -14,7 +14,7 @@ public class Account {
     private String accountHolderName;
 
     @Column(name="current_balance")
-    private String currentBalance;
+    private int currentBalance;
 
     public Account()
     {}
@@ -27,7 +27,7 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Account(String accountHolderName, String currentBalance) {
+    public Account(String accountHolderName, int currentBalance) {
         this.accountHolderName = accountHolderName;
         this.currentBalance = currentBalance;
     }
@@ -42,11 +42,11 @@ public class Account {
         this.accountHolderName = accountHolderName;
     }
 
-    public String getCurrentBalance() {
+    public int getCurrentBalance() {
         return currentBalance;
     }
 
-    public void setCurrentBalance(String currentBalance) {
+    public void setCurrentBalance(int currentBalance) {
         this.currentBalance = currentBalance;
     }
 }

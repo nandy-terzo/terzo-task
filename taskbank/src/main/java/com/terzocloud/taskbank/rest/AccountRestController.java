@@ -28,39 +28,54 @@ public class AccountRestController {
     }
 
     @GetMapping("/account/{accountId}")  // account info id
-    public String getAccount(@PathVariable int accountId)
+    public Account getAccount(@PathVariable int accountId)
     {
-        return "requested account id"+accountId;
+        return accountService.getById(accountId);
+       // return "requested account id"+accountId;
     }
 
     @PutMapping("/account/{accountId}")  // update account by id
-    public String updateAccount(@PathVariable int accountId)
+    public Account updateAccount(@RequestBody Account account ,@PathVariable int accountId)
     {
-        return "update account id"+accountId;
+        account.setAccountId(accountId);
+        accountService.save(account);
+        return account;
     }
 
     @DeleteMapping("/account/{accountId}") //delete account by id
-    public String deleteAccount(@PathVariable int accountId)
+    public Account deleteAccount(@PathVariable int accountId)
     {
-        return "delete account id"+accountId;
+        Account account=accountService.deleteById(accountId);
+        return account;
     }
 
     @PostMapping("/account")//create an account
-    public String createAccount()
+    public Account createAccount(@RequestBody Account account)
     {
-        return "Create account";
+        account.setAccountId(0);
+        account.setCurrentBalance(1000);
+        accountService.save(account);
+        return account;
     }
 
     @PutMapping("/deposit/{accountId}/{amount}") //deposit amt
-    public String depositAccount(@PathVariable int accountId, @PathVariable int amount)
+    public Account depositAccount(@PathVariable int accountId, @PathVariable int amount)
     {
-        return "deposit amount:"+amount+", id:"+accountId;
+        Account account=accountService.getById(accountId); //get user account
+        int temp=account.getCurrentBalance()+amount;
+        account.setCurrentBalance(temp);
+        accountService.save(account);
+        return account;
     }
 
     @PutMapping("/withdraw/{accountId}/{amount}")  //withdraw amt
-    public String withdrawAccount(@PathVariable int accountId, @PathVariable int amount)
+    public Account withdrawAccount(@PathVariable int accountId, @PathVariable int amount)
     {
-        return "withdraw amount:"+amount+", id:"+accountId;
+        Account account=accountService.getById(accountId); //get user account
+        int temp=account.getCurrentBalance()-amount;
+        account.setCurrentBalance(temp);
+        accountService.save(account);
+        return account;
     }
 
 

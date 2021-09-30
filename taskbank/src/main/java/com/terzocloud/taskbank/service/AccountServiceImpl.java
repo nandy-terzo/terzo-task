@@ -4,6 +4,7 @@ import com.terzocloud.taskbank.dao.AccountDAO;
 import com.terzocloud.taskbank.entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -21,13 +22,16 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    @Transactional
     public void save(Account account) {
         accountDAO.save(account);
     }
 
     @Override
-    public void deleteById(int id) {
-        accountDAO.deleteById(id);
+    @Transactional
+    public Account deleteById(int id) {
+        Account account=accountDAO.deleteById(id);
+        return account;
     }
 
 }

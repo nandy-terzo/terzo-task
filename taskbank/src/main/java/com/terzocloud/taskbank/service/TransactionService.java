@@ -1,7 +1,7 @@
 package com.terzocloud.taskbank.service;
 
 
-
+/*
 import com.terzocloud.taskbank.entity.Transaction;
 
 import java.time.LocalDate;
@@ -13,3 +13,4 @@ public interface TransactionService {
     public void Deposit(int accountID, int amount);
     public List<Transaction> transactionSummary(LocalDate transactionDate);
 }
+*/

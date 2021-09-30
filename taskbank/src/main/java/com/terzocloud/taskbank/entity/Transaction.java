@@ -9,13 +9,16 @@ import java.time.LocalDate;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="transaction_account_id")
+    @Column(name="id")
+    private int transactionId;
+
+    @Column(name="account_id")
     private int accountId;
 
     @Column(name="transaction_type")
     private String transaction_type;
 
-    @Id
+  //  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="transaction_amount")
     private int transaction_amount;
@@ -28,7 +31,8 @@ public class Transaction {
 
     }
 
-    public Transaction(String transaction_type, int transaction_amount, LocalDate transaction_date) {
+    public Transaction(String transaction_type, int transaction_amount, LocalDate transaction_date, int accountId) {
+        this.accountId=accountId;
         this.transaction_type = transaction_type;
         this.transaction_amount = transaction_amount;
         this.transaction_date = transaction_date;
@@ -36,6 +40,14 @@ public class Transaction {
 
     public String getTransaction_type() {
         return transaction_type;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
     public void setTransaction_type(String transaction_type) {
@@ -68,6 +80,6 @@ public class Transaction {
 
 
 
-
-
 }
+
+

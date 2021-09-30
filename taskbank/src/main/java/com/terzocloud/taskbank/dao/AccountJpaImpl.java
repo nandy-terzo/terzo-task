@@ -15,6 +15,7 @@ public class AccountJpaImpl implements AccountDAO{
     public AccountJpaImpl(EntityManager entityManager){
         this.entityManager=entityManager;
     }
+
     @Override
     public List<Account> findAll() {
         Query thequery=entityManager.createQuery("from Account");
@@ -35,9 +36,11 @@ public class AccountJpaImpl implements AccountDAO{
     }
 
     @Override
-    public void deleteById(int theId) {
-        Query theQuery=entityManager.createQuery("delete from Account where id=:accountId");
+    public Account deleteById(int theId) {
+        Account account=findById(theId);
+        Query theQuery=entityManager.createQuery("delete from Account where accountId=:accountId");
         theQuery.setParameter("accountId",theId);
         theQuery.executeUpdate();
+        return account;
     }
 }
