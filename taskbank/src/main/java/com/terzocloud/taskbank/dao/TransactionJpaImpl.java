@@ -30,13 +30,18 @@ public class TransactionJpaImpl implements TransactionDAO{
         //CHECKING IF ACCOUNT BALANCE IS GREATER THAN OR EQUAL TO WITHDRAWAL AMOUNT.
         boolean isPossible=false;
         Account currentAccount = eManager.find(Account.class, accountID);
+        if(currentAccount==null)
+        {
+            throw new CustomerNotFoundException("Account does not exist");
+        }
+        else{
         if(currentAccount.getCurrentBalance()>=amount) isPossible=true;
 
-        if(isPossible){
+        if(isPossible) {
             //UPDATING ACCOUNT TABLE WITH BALANCE AFTER WITHDRAWAL
             Query accountQuery = eManager.createQuery("update Account set currentBalance=currentBalance-:amount where accountId=:ID");
-            accountQuery.setParameter("amount",amount);
-            accountQuery.setParameter("ID",accountID);
+            accountQuery.setParameter("amount", amount);
+            accountQuery.setParameter("ID", accountID);
             accountQuery.executeUpdate();
 
             //ADDING TRANSACTION TO THE TABLE
@@ -49,11 +54,11 @@ public class TransactionJpaImpl implements TransactionDAO{
 
             eManager.merge(tempTransaction);
 
-            totalTransactions+=1;
-            totalwithdrawnAmt+=amount;
+            totalTransactions += 1;
+            totalwithdrawnAmt += amount;
 
 
-
+        }
         }
 
 
@@ -64,27 +69,33 @@ public class TransactionJpaImpl implements TransactionDAO{
     @Transactional
     public void Deposit(int accountID, int amount) {
 
-        //UPDATING ACCOUNT TABLE WITH BALANCE AFTER DEPOSIT
-        Query accountQuery = eManager.createQuery("update Account set currentBalance=currentBalance+:amount where accountId=:ID");
-        accountQuery.setParameter("amount",amount);
-        accountQuery.setParameter("ID",accountID);
+        Account currentAccount = eManager.find(Account.class, accountID);
+        if(currentAccount==null)
+        {
+            throw new CustomerNotFoundException("Account does not exist");
+        }
+        else {
+            //UPDATING ACCOUNT TABLE WITH BALANCE AFTER DEPOSIT
+            Query accountQuery = eManager.createQuery("update Account set currentBalance=currentBalance+:amount where accountId=:ID");
+            accountQuery.setParameter("amount", amount);
+            accountQuery.setParameter("ID", accountID);
 
-        //ADDING TRANSACTION TO THE TABLE
-        Transaction tempTransaction = new Transaction();
-        tempTransaction.setTransactionId(0);
-        tempTransaction.setAccountId(accountID);
-        tempTransaction.setTransaction_amount(amount);
-        tempTransaction.setTransaction_type("Deposit");
-        tempTransaction.setTransaction_date(LocalDate.now().toString());
+            //ADDING TRANSACTION TO THE TABLE
+            Transaction tempTransaction = new Transaction();
+            tempTransaction.setTransactionId(0);
+            tempTransaction.setAccountId(accountID);
+            tempTransaction.setTransaction_amount(amount);
+            tempTransaction.setTransaction_type("Deposit");
+            tempTransaction.setTransaction_date(LocalDate.now().toString());
 
-        Transaction tempTransaction1 = eManager.merge(tempTransaction);
-        tempTransaction.setTransactionId(tempTransaction1.getTransactionId());
+            Transaction tempTransaction1 = eManager.merge(tempTransaction);
+            tempTransaction.setTransactionId(tempTransaction1.getTransactionId());
 
-        totalTransactions+=1;
-        totalDepositedAmt+=amount;
+            totalTransactions += 1;
+            totalDepositedAmt += amount;
 
-        accountQuery.executeUpdate();
-
+            accountQuery.executeUpdate();
+        }
     }
 
     @Override
