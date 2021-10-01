@@ -12,19 +12,19 @@ public class Transaction {
     @Column(name="transaction_id")
     private int transactionId;
 
-//    @OneToMany
+    //    @OneToMany
     @Column(name="account_id")
     private int accountId;
 
-  /*
-    @Column(name="account_id")
-    private int accountId;
-*/
+    /*
+      @Column(name="account_id")
+      private int accountId;
+  */
     @Column(name="transaction_type")
     private String transaction_type;
 
-  //  @Id
-  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //  @Id
+    //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="transaction_amount")
     private int transaction_amount;
 
@@ -91,5 +91,4 @@ public class Transaction {
 
 
 }
-
 
