@@ -1,14 +1,19 @@
 package com.terzocloud.taskbank.service;
 
+
+import com.terzocloud.taskbank.dao.TransactionDateSummary;
 import com.terzocloud.taskbank.dao.TransactionDAO;
-import com.terzocloud.taskbank.entity.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
+@Service
 public class TransactionServiceImpl implements TransactionService{
 
+    @Autowired
     private TransactionDAO transactionDAO;
+
     @Override
     public void Withdraw(int accountID, int amount) {
         transactionDAO.Withdraw(accountID, amount);
@@ -20,7 +25,7 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public List<Transaction> transactionSummary(LocalDate transactionDate) {
+    public TransactionDateSummary transactionSummary(String transactionDate) {
         return transactionDAO.transactionSummary(transactionDate);
     }
 }

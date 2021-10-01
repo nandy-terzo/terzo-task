@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="transaction_id")
     private int transactionId;
 
     @Column(name="account_id")
@@ -26,9 +26,14 @@ public class Transaction {
     @Column(name="transaction_date")
     private String transaction_date;
 
+
+
     public Transaction()
     {
-
+//        this.accountId=0;
+//        this.transaction_type = "Type";
+//        this.transaction_amount = 0;
+//        this.transaction_date = "2021-1-01";
     }
 
     public Transaction(String transaction_type, int transaction_amount, String transaction_date, int accountId) {

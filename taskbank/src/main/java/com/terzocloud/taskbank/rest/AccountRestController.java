@@ -1,10 +1,14 @@
 package com.terzocloud.taskbank.rest;
 
+import com.terzocloud.taskbank.dao.TransactionDateSummary;
 import com.terzocloud.taskbank.entity.Account;
+import com.terzocloud.taskbank.entity.Transaction;
 import com.terzocloud.taskbank.service.AccountService;
+import com.terzocloud.taskbank.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -13,11 +17,13 @@ public class AccountRestController {
 
 
     private AccountService accountService;
+    private TransactionService transactionService;
 
     @Autowired
-    public AccountRestController(AccountService accountService)
+    public AccountRestController(AccountService accountService, TransactionService transactionService)
     {
         this.accountService=accountService;
+        this.transactionService= transactionService;
     }
 
     @GetMapping("/account/all")  //all account info
@@ -59,25 +65,32 @@ public class AccountRestController {
     }
 
     @PutMapping("/deposit/{accountId}/{amount}") //deposit amt
-    public Account depositAccount(@PathVariable int accountId, @PathVariable int amount)
+    public void depositAccount(@PathVariable int accountId, @PathVariable int amount)
     {
-        Account account=accountService.getById(accountId); //get user account
-        int temp=account.getCurrentBalance()+amount;
-        account.setCurrentBalance(temp);
-        accountService.save(account);
-        return account;
+//        Account account=accountService.getById(accountId); //get user account
+//        int temp=account.getCurrentBalance()+amount;
+//        account.setCurrentBalance(temp);
+//        accountService.save(account);
+//        return account;
+         transactionService.Deposit(accountId, amount);
     }
 
     @PutMapping("/withdraw/{accountId}/{amount}")  //withdraw amt
-    public Account withdrawAccount(@PathVariable int accountId, @PathVariable int amount)
+    public void withdrawAccount(@PathVariable int accountId, @PathVariable int amount)
     {
-        Account account=accountService.getById(accountId); //get user account
-        int temp=account.getCurrentBalance()-amount;
-        account.setCurrentBalance(temp);
-        accountService.save(account);
-        return account;
+//        Account account=accountService.getById(accountId); //get user account
+//        int temp=account.getCurrentBalance()-amount;
+//        account.setCurrentBalance(temp);
+//        accountService.save(account);
+//        return account;
+        transactionService.Withdraw(accountId, amount);
     }
 
+    @GetMapping("/transaction/summary/{transaction_date}")
+    public TransactionDateSummary summaryTransaction(@PathVariable String transaction_date)
+    {
+        return transactionService.transactionSummary(transaction_date);
+    }
 
 
 }
