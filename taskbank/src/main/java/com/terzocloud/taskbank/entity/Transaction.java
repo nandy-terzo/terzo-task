@@ -24,14 +24,14 @@ public class Transaction {
     private int transaction_amount;
 
     @Column(name="transaction_date")
-    private LocalDate transaction_date;
+    private String transaction_date;
 
     public Transaction()
     {
 
     }
 
-    public Transaction(String transaction_type, int transaction_amount, LocalDate transaction_date, int accountId) {
+    public Transaction(String transaction_type, int transaction_amount, String transaction_date, int accountId) {
         this.accountId=accountId;
         this.transaction_type = transaction_type;
         this.transaction_amount = transaction_amount;
@@ -62,11 +62,11 @@ public class Transaction {
         this.transaction_amount = transaction_amount;
     }
 
-    public LocalDate getTransaction_date() {
+    public String getTransaction_date() {
         return transaction_date;
     }
 
-    public void setTransaction_date(LocalDate transaction_date) {
+    public void setTransaction_date(String transaction_date) {
         this.transaction_date = transaction_date;
     }
 

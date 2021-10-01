@@ -33,17 +33,22 @@ public class TransactionJpa implements TransactionDAO{
             accountQuery.setParameter("amount",amount);
             accountQuery.setParameter("ID",accountID);
 
-            Query transactionQuery = eManager.createQuery("insert into Transaction(account_id, transaction_type, transaction_amount, transaction_date) values(:accID, :transType, :transAmount, :transDate )");
-            transactionQuery.setParameter("account_id",accountID);
-            transactionQuery.setParameter("transaction_type","Withdraw");
-            transactionQuery.setParameter("transaction_amount",amount);
-            transactionQuery.setParameter("transaction_date",LocalDate.now());
+
+            Transaction tempTransaction = new Transaction();
+            tempTransaction.setTransactionId(0);
+            tempTransaction.setAccountId(accountID);
+            tempTransaction.setTransaction_amount(amount);
+            tempTransaction.setTransaction_type("Withdraw");
+            tempTransaction.setTransaction_date(LocalDate.now().toString());
+
+            Transaction tempTransaction1 = eManager.merge(tempTransaction);
+            tempTransaction.setTransactionId(tempTransaction1.getTransactionId());
 
             totalTransactions+=1;
             totalwithdrawnAmt+=amount;
 
             accountQuery.executeUpdate();
-            transactionQuery.executeUpdate();
+
         }
 
 
@@ -58,17 +63,21 @@ public class TransactionJpa implements TransactionDAO{
         accountQuery.setParameter("amount",amount);
         accountQuery.setParameter("ID",accountID);
 
-        Query transactionQuery = eManager.createQuery("insert into Transaction(account_id, transaction_type, transaction_amount, transaction_date) values(:accID, :transType, :transAmount, :transDate )");
-        transactionQuery.setParameter("account_id",accountID);
-        transactionQuery.setParameter("transaction_type","Deposit");
-        transactionQuery.setParameter("transaction_amount",amount);
-        transactionQuery.setParameter("transaction_date",LocalDate.now());
+        Transaction tempTransaction = new Transaction();
+        tempTransaction.setTransactionId(0);
+        tempTransaction.setAccountId(accountID);
+        tempTransaction.setTransaction_amount(amount);
+        tempTransaction.setTransaction_type("Deposit");
+        tempTransaction.setTransaction_date(LocalDate.now().toString());
+
+        Transaction tempTransaction1 = eManager.merge(tempTransaction);
+        tempTransaction.setTransactionId(tempTransaction1.getTransactionId());
 
         totalTransactions+=1;
         totalDepositedAmt+=amount;
 
         accountQuery.executeUpdate();
-        transactionQuery.executeUpdate();
+
     }
 
     @Override
