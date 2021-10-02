@@ -15,9 +15,7 @@ import java.util.List;
 public class TransactionJpaImpl implements TransactionDAO{
 
     private EntityManager eManager;
-    private int totalTransactions=0;
-    private int totalwithdrawnAmt=0;
-    private int totalDepositedAmt=0;
+
 
     @Autowired
     public TransactionJpaImpl(EntityManager manager){eManager=manager;}
@@ -54,8 +52,6 @@ public class TransactionJpaImpl implements TransactionDAO{
 
             eManager.merge(tempTransaction);
 
-            totalTransactions += 1;
-            totalwithdrawnAmt += amount;
 
 
         }
@@ -91,8 +87,6 @@ public class TransactionJpaImpl implements TransactionDAO{
             Transaction tempTransaction1 = eManager.merge(tempTransaction);
             tempTransaction.setTransactionId(tempTransaction1.getTransactionId());
 
-            totalTransactions += 1;
-            totalDepositedAmt += amount;
 
             accountQuery.executeUpdate();
         }
@@ -101,9 +95,11 @@ public class TransactionJpaImpl implements TransactionDAO{
     @Override
     @Transactional
     public TransactionDateSummary transactionSummary(String transactionDate) {
+        //QUERY TO SELECT ALL TRANSACTIONS ON GIVEN DATE
         Query summaryQuery = eManager.createQuery(" from Transaction where transaction_date like :date");
         summaryQuery.setParameter("date", transactionDate);
 
+        //STORING THE RESULTING TRANSACTIONS INTO A LIST TO CALCULATE TOTAL NUMBER OF TRANSACTIONS, TOTAL DEPOSITED AMOUNT AND TOTAL WITHDRAWN AMOUNT
         List<Transaction> transactions= summaryQuery.getResultList();
         int transactionCount = transactions.size();
         int totalWithdraw=0;
@@ -115,7 +111,7 @@ public class TransactionJpaImpl implements TransactionDAO{
             if(bufferTransaction.getTransaction_type().equals("Withdraw"))
                 totalWithdraw+=bufferTransaction.getTransaction_amount();
         }
-        System.out.println(transactions + "\t\t\t\t\t\tIS QUERY CORRECT");
+//        System.out.println(transactions + "\t\t\t\t\t\tIS QUERY CORRECT");
         TransactionDateSummary returnSummary = new TransactionDateSummary(transactionCount, totalWithdraw, totalDeposit);
         return returnSummary;
 

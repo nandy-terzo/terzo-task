@@ -67,22 +67,13 @@ public class AccountRestController {
     @PutMapping("/deposit/{accountId}/{amount}") //deposit amt
     public void depositAccount(@PathVariable int accountId, @PathVariable int amount)
     {
-//        Account account=accountService.getById(accountId); //get user account
-//        int temp=account.getCurrentBalance()+amount;
-//        account.setCurrentBalance(temp);
-//        accountService.save(account);
-//        return account;
          transactionService.Deposit(accountId, amount);
     }
 
     @PutMapping("/withdraw/{accountId}/{amount}")  //withdraw amt
     public void withdrawAccount(@PathVariable int accountId, @PathVariable int amount)
     {
-//        Account account=accountService.getById(accountId); //get user account
-//        int temp=account.getCurrentBalance()-amount;
-//        account.setCurrentBalance(temp);
-//        accountService.save(account);
-//        return account;
+//
         transactionService.Withdraw(accountId, amount);
     }
 
